@@ -29,6 +29,7 @@ public class FindMembers {
     }
 
     public static void addMemberToFile(String name, String money) {
+
         try (FileWriter fw = new FileWriter("Medlemmar.txt", true)) {
             fw.write(name + ";" + money + "\n");
         } catch (Exception e) {

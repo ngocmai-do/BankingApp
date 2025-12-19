@@ -1,0 +1,6 @@
+AccountNumber;CompanyName;OrganizationNumber;Address;Email;Password;Balance;ShareBalance
+700201;Nordic Tech Solutions AB;556712-8394;Innovationsgatan 12, 11157 Stockholm;finance@nordictech.se;$2y$nordictech;12500000.00;1500000
+700202;Green Energy Group AB;559034-1287;Solvägen 8, 41263 Göteborg;accounts@greenenergy.se;$2y$greenenergy;48250000.50;3200000
+700203;Skandinavisk Logistik AB;556489-7743;Terminalvägen 3, 21124 Malmö;billing@skalogi.se;$2y$skalogi;8900000.00;875000
+700204;Arctic Mining Corporation AB;556301-9921;Gruvtorget 1, 98138 Kiruna;finance@arcticmining.se;$2y$arcticmining;76500000.00;5400000
+700205;BlueWave Digital Services AB;559221-6409;Hamngatan 44, 60221 Norrköping;economy@bluewave.se;$2y$bluewave;3200000.75;420000

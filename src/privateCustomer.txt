@@ -1,0 +1,21 @@
+AccountNumber;Name;Address;Email;Personnummer;Password;Balance
+500101;Fredrik Berggren; Skolgränd 8, 16819 Norrköping; fredde@fakemail.se; 851020-6728; $2y$fredrik123; 152340
+500102;Astrid Larsson; Järnvägsvägen 5, 64230 Gävle; asta@fakemail.de; 540815-4382; $2y$astrid123;98450
+500103;Pia Johansson; Idrottsvägen 1, 77845 Landskrona; anne31@fakemail.de; 361026-1822; $2y$pia123; 12450
+500104;Maria Lindström; Backtorget 666, 44729 Falun; bingo@fakemail.com; 680127-2300; $2y$mariaL123; 45200
+500105;Maria Holmberg; Fabriksgatan 4, 54886 Borlänge; maria@fakemail.se; 480120-5578; $2y$mariaH123; 210340
+500106;Eva Johansson;Ängsvägen 717, 78304 Halmstad;svanen@fakemail.com;940128-7025;fsf"#43eva; 5613
+500107;Herbert Jansson;Skogsvägen 7, 11512 Södertälje;hebbe@fakemail.se;060201-4763; #654@@asf; 47963
+500108;Erik Gustafsson;Idrottsgatan 9, 54018 Lidköping;maria95@fakemail.se;901101-5113; !%&fs23fg; 981
+500109;Linda Nyberg;Grangatan 6, 47371 Halmstad;rally@fakemail.se;490827-3164; werw343=#!; 74512
+500110;Gustaf Sjöberg;Kyrkvägen 5, 33703 Borlänge;gurra@fakemail.se;550726-4835; 23fsdf!#; 4565329
+500111;Johan Lundberg;Idrottsvägen 69, 79332 Malmö;jocke@fakemail.com;720917-6440; ${@hjg34johan; 2154
+500112;Gustaf Karlsson;Bäckvägen 1, 10851 Karlstad;yisaksson@fakemail.com;690925-7823; poqr2346&; 132578
+500113;Lennart Johansson;Skogsgatan 317, 12506 Varberg;osten@fakemail.com;980206-3801; fsf"#df43len; 5854613
+500114;Oskar Bengtsson;Ängstorget 59, 24436 Lund;lucky@fakemail.com;361015-9737; #654osk@asf; 4754
+500115;Egon Jakobsson;Backstigen 43, 85435 Motala;egge@fakemail.com;910609-2571;!%egs23fg; 8981
+500116;Viktoria Jakobsson;Åkervägen 21, 14001 Falun;vickan@fakemail.se;770530-4579;e3vik43=#!; 54512
+500117;Gustav Johansson;Stationsgatan 73, 28139 Gävle;trisse@fakemail.com;370701-3169;2fguss!#; 539
+500118;Lilian Andersson;Gengatan 01, 32422 Södertälje;lillan@fakemail.com;561107-3031;lilr346&; 3278
+500119;Jan Persson;Strandgränd 34, 19271 Skellefteå;janne@fakemail.se;580606-9828;jan@2k123; 2340
+500120;Jakob Lundin;Backgränd 19, 69618 Sandviken;jacke@fakemail.com;000718-8949;$jg34jakob; 642154
