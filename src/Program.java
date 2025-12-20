@@ -14,6 +14,13 @@ public class Program extends JFrame implements ActionListener {
 
     public Program() {
 
+        DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
+
+        //print out lists for testing purpose:
+        databaseReaderWriter.printCustomerList(databaseReaderWriter.readPrivateCustomerFile());
+        databaseReaderWriter.printCustomerList(databaseReaderWriter.readCorpCustomerFile());
+
+
         this.add(jp);
         jp.setLayout(new GridLayout(2, 3));
 
