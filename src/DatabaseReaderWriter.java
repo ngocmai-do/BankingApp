@@ -70,6 +70,24 @@ public class DatabaseReaderWriter {
         }
     }
 
+    public String getBankInfo () {
+        StringBuilder bankInfo = new StringBuilder();
+        String temp;
+
+        try (Scanner sc = new Scanner(new File("src/MarahBankInfo.txt"))) {
+            while (sc.hasNextLine()) {
+                temp = sc.nextLine();
+                bankInfo.append(temp);
+                bankInfo.append("\n");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            //System.exit(0);
+        }
+        return bankInfo.toString();
+    }
+
 //TO DO: this method will need to fix (thinking this will be used to add new customer of the bank)
     public void writeDataToFile(String outFileName, String newCustomerInfo){
 

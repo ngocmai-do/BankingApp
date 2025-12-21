@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Program extends JFrame implements ActionListener {
 
     JPanel jp = new JPanel();
+    JTextField bankInfoField = new JTextField();
     JButton nyKund = new JButton("Ny kund");
     JButton addMoney = new JButton("Lägg till pengar");
     JButton taUtPengar = new JButton("Ta ut pengar");
@@ -19,10 +21,15 @@ public class Program extends JFrame implements ActionListener {
         //print out lists for testing purpose:
         databaseReaderWriter.printCustomerList(databaseReaderWriter.readPrivateCustomerFile());
         databaseReaderWriter.printCustomerList(databaseReaderWriter.readCorpCustomerFile());
+        IO.println(databaseReaderWriter.getBankInfo());
 
+        bankInfoField.setText(databaseReaderWriter.getBankInfo());
+        
 
-        this.add(jp);
+        this.setTitle("Marah Bank AB");
+        this.add(jp, BorderLayout.NORTH);
         jp.setLayout(new GridLayout(2, 3));
+        this.add(bankInfoField, BorderLayout.SOUTH);
 
         placeButtonsInJPanel(buttons, jp);
 
