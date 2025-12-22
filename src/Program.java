@@ -8,34 +8,47 @@ import java.util.Random;
 public class Program extends JFrame implements ActionListener {
 
     JPanel jp = new JPanel();
-    JTextField bankInfoField = new JTextField();
+    JTextArea bankInfoField = new JTextArea();
+    JButton kund = new JButton("Kund");
+    JButton bank = new JButton("Bank");
+
+    JLabel accountLabel = new JLabel("Kontonummer: ");
+    JTextField accountNumberField = new JTextField(50);
+    JLabel passwordLabel = new JLabel("Lösenord: ");
+    JTextField passwordField = new JTextField(50);
+    JButton logInButton = new JButton("Log In");
+    JTextField logInResult = new JTextField(100);
+
+    JButton seeAllCustomer = new JButton("Se alla kunders information");
+    JButton lookUpCustomer = new JButton("Sök kund");
+
     JButton nyKund = new JButton("Ny kund");
     JButton addMoney = new JButton("Lägg till pengar");
     JButton taUtPengar = new JButton("Ta ut pengar");
-    JButton[] buttons = new JButton[]{nyKund, addMoney, taUtPengar};
+    JButton[] buttons = new JButton[]{kund, bank};
+
+
+    String programState;
 
     public Program() {
 
         DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
 
-        //print out lists for testing purpose:
-        databaseReaderWriter.printCustomerList(databaseReaderWriter.readPrivateCustomerFile());
-        databaseReaderWriter.printCustomerList(databaseReaderWriter.readCorpCustomerFile());
-        IO.println(databaseReaderWriter.getBankInfo());
-
         bankInfoField.setText(databaseReaderWriter.getBankInfo());
-        
+
 
         this.setTitle("Marah Bank AB");
         this.add(jp, BorderLayout.NORTH);
-        jp.setLayout(new GridLayout(2, 3));
+        jp.setLayout(new GridLayout(3, 2));
         this.add(bankInfoField, BorderLayout.SOUTH);
+        jp.add(kund);
+        kund.addActionListener(this);
+        jp.add(bank);
+        bank.addActionListener(this);
 
-        placeButtonsInJPanel(buttons, jp);
-
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].addActionListener(this);
-        }
+        accountNumberField.addActionListener(this);
+        passwordField.addActionListener(this);
+        logInButton.addActionListener(this);
 
         setSize(500, 300);
         setVisible(true);
@@ -44,19 +57,51 @@ public class Program extends JFrame implements ActionListener {
 
     }
 
-    public void placeButtonsInJPanel(JButton[] buttonsArray, JPanel jp) {
-
-        for (int i = 0; i < buttonsArray.length; i++) {
-            jp.add(buttonsArray[i]);
-        }
-
-        jp.repaint();
-        jp.revalidate();
-
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(bank)) {
+            jp.removeAll();
+            jp.add(passwordLabel);
+            jp.add(passwordField);
+            jp.add(logInButton);
+            jp.repaint();
+            jp.revalidate();
+            programState = "bank";
+        }
+
+        if (e.getSource().equals(kund)) {
+            jp.removeAll();
+            jp.add(accountLabel);
+            jp.add(accountNumberField);
+            jp.add(passwordLabel);
+            jp.add(passwordField);
+            jp.add(logInButton);
+            jp.repaint();
+            jp.revalidate();
+            programState = "kund";
+        }
+
+        if (e.getSource().equals(logInButton)) {
+            String result;
+            if (programState.equals("kund")) {
+                result = CustomerUtilities.loggingIn(accountNumberField.getText(), passwordField.getText());
+                jp.removeAll();
+                logInResult.setText(result);
+                jp.add(logInResult);
+                jp.repaint();
+                jp.revalidate();
+            }
+            if (programState.equals("bank")) {
+                result = BankUtilities.bankLogIn(passwordField.getText());
+                jp.removeAll();
+                logInResult.setText(result);
+                jp.add(logInResult);
+                jp.repaint();
+                jp.revalidate();
+            }
+        }
+
         if (e.getSource().equals(nyKund)) {
             String nameInput = JOptionPane.showInputDialog("Vad heter du?");
             String name = nameInput.trim();
