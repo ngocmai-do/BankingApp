@@ -1,9 +1,9 @@
 import java.util.List;
 
 public class BankUtilities {
-    DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance();
-    List<Customer> privateCustomerList = databaseReaderWriter.readPrivateCustomerFile();
-    List<Customer> corporateCustomerList = databaseReaderWriter.readCorpCustomerFile();
+    static DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance();
+    static List<Customer> privateCustomerList = databaseReaderWriter.readPrivateCustomerFile();
+    static List<Customer> corporateCustomerList = databaseReaderWriter.readCorpCustomerFile();
 
     public static String bankLogIn (String password) {
         if (password.trim().equals("mai&farah")) {
@@ -13,25 +13,25 @@ public class BankUtilities {
         }
     }
 
-    public void seeAllCustomer() {
-        databaseReaderWriter.printCustomerList(privateCustomerList);
-        databaseReaderWriter.printCustomerList(corporateCustomerList);
+    public static String seeAllCustomer() {
+        return "Privata kunder:\n" + databaseReaderWriter.printCustomerList(privateCustomerList) +
+                "\nFöretag kunder:\n" + databaseReaderWriter.printCustomerList(corporateCustomerList);
     }
 
-    public String lookUpCustomer (String name) {
+    public static String lookUpCustomer (String name) {
         name = name.trim();
 
         // Check private customers
         for (int i = 0; i < privateCustomerList.size(); i++) {
-            if (name.equals(privateCustomerList.get(i).getName())) {
-                privateCustomerList.get(i).getAllInfo();
+            if (name.equalsIgnoreCase(privateCustomerList.get(i).getName())) {
+                return privateCustomerList.get(i).getAllInfo();
             }
         }
 
         // Check corporate customers
         for (int i = 0; i < corporateCustomerList.size(); i++) {
-            if (name.equals(corporateCustomerList.get(i).getName())) {
-                corporateCustomerList.get(i).getAllInfo();
+            if (name.equalsIgnoreCase(corporateCustomerList.get(i).getName())) {
+                return corporateCustomerList.get(i).getAllInfo();
             }
         }
 

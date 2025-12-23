@@ -19,23 +19,30 @@ public class Program extends JFrame implements ActionListener {
     JButton logInButton = new JButton("Log In");
     JTextField logInResult = new JTextField(100);
 
+    JButton tryAgain = new JButton("Försök igen");
+    JButton seeBankingOptions = new JButton("Se bankalternativ");
+
     JButton seeAllCustomer = new JButton("Se alla kunders information");
+    JTextArea allCustomerInfo = new JTextArea();
+    JScrollPane scrollPane = new JScrollPane(allCustomerInfo);
     JButton lookUpCustomer = new JButton("Sök kund");
+    JLabel nameLabel = new JLabel("Kundens fullständiga namn:");
+    JTextField nameField = new JTextField(50);
+    JButton lookUpButton = new JButton("Sök kund");
+
+    JButton goBack = new JButton("Tillbaka");
 
     JButton nyKund = new JButton("Ny kund");
-    JButton addMoney = new JButton("Lägg till pengar");
+    JButton addMoney = new JButton("Sätt in pengar");
     JButton taUtPengar = new JButton("Ta ut pengar");
-    JButton[] buttons = new JButton[]{kund, bank};
 
+    DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
 
     String programState;
 
     public Program() {
 
-        DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
-
         bankInfoField.setText(databaseReaderWriter.getBankInfo());
-
 
         this.setTitle("Marah Bank AB");
         this.add(jp, BorderLayout.NORTH);
@@ -49,6 +56,13 @@ public class Program extends JFrame implements ActionListener {
         accountNumberField.addActionListener(this);
         passwordField.addActionListener(this);
         logInButton.addActionListener(this);
+        tryAgain.addActionListener(this);
+        seeBankingOptions.addActionListener(this);
+        seeAllCustomer.addActionListener(this);
+        lookUpCustomer.addActionListener(this);
+        nameField.addActionListener(this);
+        lookUpButton.addActionListener(this);
+        goBack.addActionListener(this);
 
         setSize(500, 300);
         setVisible(true);
@@ -57,14 +71,23 @@ public class Program extends JFrame implements ActionListener {
 
     }
 
+    public void afterLoggingIn (String logInResult) {
+        if (logInResult.startsWith("Välkommen")) {
+            jp.add(seeBankingOptions);
+        } else {
+            jp.add(tryAgain);
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(bank)) {
             jp.removeAll();
+            passwordField.setText("");
             jp.add(passwordLabel);
             jp.add(passwordField);
             jp.add(logInButton);
+            jp.add(goBack);
             jp.repaint();
             jp.revalidate();
             programState = "bank";
@@ -72,11 +95,14 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(kund)) {
             jp.removeAll();
+            accountNumberField.setText("");
+            passwordField.setText("");
             jp.add(accountLabel);
             jp.add(accountNumberField);
             jp.add(passwordLabel);
             jp.add(passwordField);
             jp.add(logInButton);
+            jp.add(goBack);
             jp.repaint();
             jp.revalidate();
             programState = "kund";
@@ -89,6 +115,8 @@ public class Program extends JFrame implements ActionListener {
                 jp.removeAll();
                 logInResult.setText(result);
                 jp.add(logInResult);
+                afterLoggingIn(result);
+                jp.add(goBack);
                 jp.repaint();
                 jp.revalidate();
             }
@@ -97,62 +125,92 @@ public class Program extends JFrame implements ActionListener {
                 jp.removeAll();
                 logInResult.setText(result);
                 jp.add(logInResult);
+                afterLoggingIn(result);
+                jp.add(goBack);
                 jp.repaint();
                 jp.revalidate();
             }
         }
 
-        if (e.getSource().equals(nyKund)) {
-            String nameInput = JOptionPane.showInputDialog("Vad heter du?");
-            String name = nameInput.trim();
-            Medlem aMember = FindMembers.findMembersInFile(name);
+        if (e.getSource().equals(tryAgain) && programState.equals("kund")) {
+            jp.removeAll();
+            accountNumberField.setText("");
+            passwordField.setText("");
+            jp.add(accountLabel);
+            jp.add(accountNumberField);
+            jp.add(passwordLabel);
+            jp.add(passwordField);
+            jp.add(logInButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
 
-            if (aMember == null) {
-                int pengar = new Random().nextInt(10000);
-                String moneyAsString = String.valueOf(pengar);
-                FindMembers.addMemberToFile(name, moneyAsString);
-            } else {
-                JOptionPane.showMessageDialog(null, "Du är redan medlem");
+        if (e.getSource().equals(tryAgain) && programState.equals("bank")) {
+            jp.removeAll();
+            passwordField.setText("");
+            jp.add(passwordLabel);
+            jp.add(passwordField);
+            jp.add(logInButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(seeBankingOptions)) {
+            if (programState.equals("bank")) {
+                jp.removeAll();
+                jp.add(seeAllCustomer);
+                jp.add(lookUpCustomer);
+                jp.add(goBack);
+                jp.repaint();
+                jp.revalidate();
+            }
+            if (programState.equals("kund")) {
+
             }
         }
-        if (e.getSource().equals(addMoney)) {
-            String nameInput = JOptionPane.showInputDialog("Vad är ditt namn?");
-            String person = nameInput.trim();
-            Medlem aMember = FindMembers.findMembersInFile(person);
 
-            if (aMember != null) {
-                String howMuchMoney = JOptionPane.showInputDialog(("Hur mycket pengar vill du lägga till?"));
-                int amountToAdd = Integer.parseInt(howMuchMoney.trim());
-
-                if  (amountToAdd <= 0) {
-                    JOptionPane.showMessageDialog(null, "Du kan inte lägga till minus eller noll pengar");
-                }
-                else {
-                    FindMembers.updateMemberMoney(person, +amountToAdd);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Du är inte medlem");
-            }
+        if (e.getSource().equals(seeAllCustomer)) {
+            jp.removeAll();
+            allCustomerInfo.setText(BankUtilities.seeAllCustomer());
+            jp.setLayout(new BorderLayout());
+            jp.add(scrollPane, BorderLayout.CENTER);
+            setSize(1000, 700);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
         }
-        if (e.getSource().equals(taUtPengar)) {
-            String nameInput = JOptionPane.showInputDialog("Vad heter du?");
-            String person = nameInput.trim();
-            Medlem aMember = FindMembers.findMembersInFile(person);
 
-            if (aMember != null) {
-                String howMuchMoney = JOptionPane.showInputDialog("Hur mycket pengar vill du ta ut?");
-                int amountToWithdraw = Integer.parseInt(howMuchMoney.trim());
-                int moneyInPocket = Integer.parseInt(aMember.getMoney());
-
-                if (amountToWithdraw > moneyInPocket) {
-                    JOptionPane.showMessageDialog(null, "Du har inte tillräckligt med pengar");
-                } else {
-                    FindMembers.updateMemberMoney(person, -amountToWithdraw);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Du är inte medlem");
-            }
+        if (e.getSource().equals(lookUpCustomer)) {
+            jp.removeAll();
+            jp.add(nameLabel);
+            jp.add(nameField);
+            jp.add(lookUpButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
         }
+
+        if (e.getSource().equals(lookUpButton)) {
+            jp.removeAll();
+            allCustomerInfo.setText(BankUtilities.lookUpCustomer(nameField.getText()));
+            jp.add(allCustomerInfo);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(goBack)) {
+            jp.removeAll();
+            jp.add(kund);
+            jp.add(bank);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+
+
     }
 
 }

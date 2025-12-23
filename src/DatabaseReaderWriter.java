@@ -64,10 +64,12 @@ public class DatabaseReaderWriter {
         return corpCustomerList;
     }
 
-    public void printCustomerList (List<Customer> customerList) {
+    public String printCustomerList (List<Customer> customerList) {
+        StringBuilder printResult = new StringBuilder();
         for (int i = 0; i < customerList.size(); i++) {
-            IO.println(customerList.get(i).getAllInfo());
+            printResult.append(customerList.get(i).getAllInfo()).append("\n");
         }
+        return printResult.toString();
     }
 
     public String getBankInfo () {
