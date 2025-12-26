@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DatabaseReaderWriter {
+
+    public static String customerFileName = "src/privateCustomer.txt";
     private static DatabaseReaderWriter databaseReaderWriter = new DatabaseReaderWriter();  //Singleton designmönster
 
     private DatabaseReaderWriter() {}
@@ -17,7 +19,7 @@ public class DatabaseReaderWriter {
         String[] personDataArray;
         String personData;
 
-        try (Scanner sc = new Scanner(new File("src/privateCustomer.txt"))) {
+        try (Scanner sc = new Scanner(new File(customerFileName))) {
             if (sc.hasNextLine()) {
                 sc.nextLine();      // Skip first line because it has the name of the fields instead of the actual data
             }

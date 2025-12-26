@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.List;
 
 public class CustomerUtilities {
@@ -33,5 +34,31 @@ public class CustomerUtilities {
 
         // If no account number matched
         return "Fel kontonummer!";
+    }
+
+    public static String createNewAccount(String accountName, String accountAdress, String accountEmail, String accountPersonnummer, String accountPassword) {
+        accountName = accountName.trim();
+        accountAdress = accountAdress.trim();
+        accountEmail = accountEmail.trim();
+        accountPersonnummer = accountPersonnummer.trim();
+        accountPassword = accountPassword.trim();
+        String theNewAccountNumber = getNewAccountNumber();
+
+        try (FileWriter fw = new FileWriter(DatabaseReaderWriter.customerFileName, true)) {
+            fw.write("\n" + theNewAccountNumber + ";" + accountName + ";" + accountAdress + ";" + accountEmail + ";" + accountPersonnummer + ";" + accountPassword + ";" + "0");
+            Customer newCustomer = new PrivateCustomer(theNewAccountNumber, accountName, accountAdress, accountEmail, accountPersonnummer, accountPassword, 0);
+            privateCustomerList.add(newCustomer);
+        } catch (Exception e) {
+            System.out.println("Error writing file");
+        }
+        return theNewAccountNumber;
+    }
+
+    public static String getNewAccountNumber() {
+      Customer lastCustomer = privateCustomerList.get(privateCustomerList.size() - 1);
+      String getLastCustomerNumber = lastCustomer.getAccountNumber();
+      int lastCustomerNumber = Integer.parseInt(getLastCustomerNumber);
+      lastCustomerNumber = lastCustomerNumber + 1;
+      return String.valueOf(lastCustomerNumber);
     }
 }
