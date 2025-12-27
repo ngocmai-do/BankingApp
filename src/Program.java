@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.util.Random;
 
 public class Program extends JFrame implements ActionListener {
 
@@ -29,7 +27,19 @@ public class Program extends JFrame implements ActionListener {
     JTextField newCustomerPersonnummerField = new JTextField(50);
     JLabel newCustomerPassword = new JLabel("Skapa lösenord: ");
     JTextField newCustomerPasswordField = new JTextField(50);
-    JButton createNewAccount = new JButton("Skapa");
+    JButton createNewCustomerAccount = new JButton("Skapa");
+    JButton createNewCompanyAccount = new JButton("Skapa");
+
+    JLabel newCompanyName = new JLabel("Företags namn: ");
+    JTextField newCompanyNameField = new JTextField(50);
+    JLabel newCompanyNumber = new JLabel("Organisation nummer: ");
+    JTextField newCompanyNumberField = new JTextField(50);
+    JLabel newCompanyAdress = new JLabel("Adress: ");
+    JTextField newCompanyAdressField = new JTextField(50);
+    JLabel newCompanyEmail = new JLabel("Email: ");
+    JTextField newCompanyEmailField = new JTextField(50);
+    JLabel newCompanyPassword = new JLabel("Skapa lösenord: ");
+    JTextField newCompanyPasswordField = new JTextField(50);
 
     JButton tryAgain = new JButton("Försök igen");
     JButton seeBankingOptions = new JButton("Se bankalternativ");
@@ -45,6 +55,7 @@ public class Program extends JFrame implements ActionListener {
     JButton goBack = new JButton("Tillbaka");
 
     JButton nyKund = new JButton("Ny kund");
+    JButton newCompany = new JButton("Nytt företag");
     JButton addMoney = new JButton("Sätt in pengar");
     JButton taUtPengar = new JButton("Ta ut pengar");
 
@@ -66,6 +77,8 @@ public class Program extends JFrame implements ActionListener {
         bank.addActionListener(this);
         jp.add(nyKund);
         nyKund.addActionListener(this);
+        jp.add(newCompany);
+        newCompany.addActionListener(this);
 
         accountNumberField.addActionListener(this);
         passwordField.addActionListener(this);
@@ -77,7 +90,8 @@ public class Program extends JFrame implements ActionListener {
         nameField.addActionListener(this);
         lookUpButton.addActionListener(this);
         goBack.addActionListener(this);
-        createNewAccount.addActionListener(this);
+        createNewCustomerAccount.addActionListener(this);
+        createNewCompanyAccount.addActionListener(this);
 
         setSize(500, 300);
         setVisible(true);
@@ -221,6 +235,7 @@ public class Program extends JFrame implements ActionListener {
             jp.add(kund);
             jp.add(bank);
             jp.add(nyKund);
+            jp.add(newCompany);
             jp.repaint();
             jp.revalidate();
         }
@@ -242,14 +257,48 @@ public class Program extends JFrame implements ActionListener {
             jp.add(newCustomerPassword);
             newCustomerPasswordField.setText("");
             jp.add(newCustomerPasswordField);
-            jp.add(createNewAccount);
+            jp.add(createNewCustomerAccount);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
         }
 
-        if (e.getSource().equals(createNewAccount)) {
-            String newAccountNumber = CustomerUtilities.createNewAccount(newCustomerNameField.getText(), newCustomerAdressField.getText(), newCustomerEmailField.getText(), newCustomerPersonnummerField.getText(), newCustomerPasswordField.getText());
+        if (e.getSource().equals(createNewCustomerAccount)) {
+            String newAccountNumber = CustomerUtilities.createNewCustomerAccount(newCustomerNameField.getText(), newCustomerAdressField.getText(), newCustomerEmailField.getText(), newCustomerPersonnummerField.getText(), newCustomerPasswordField.getText());
+            jp.removeAll();
+            logInResult.setText("Välkommen!\n Ditt kontonummer är " + newAccountNumber);
+            jp.add(logInResult);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+
+        }
+
+        if (e.getSource().equals(newCompany)) {
+            jp.removeAll();
+            jp.add(newCompanyName);
+            newCompanyNameField.setText("");
+            jp.add(newCompanyNameField);
+            jp.add(newCompanyNumber);
+            newCompanyNumberField.setText("");
+            jp.add(newCompanyNumberField);
+            jp.add(newCompanyAdress);
+            newCompanyAdressField.setText("");
+            jp.add(newCompanyAdressField);
+            jp.add(newCompanyEmail);
+            newCompanyEmailField.setText("");
+            jp.add(newCompanyEmailField);
+            jp.add(newCompanyPassword);
+            newCompanyPasswordField.setText("");
+            jp.add(newCompanyPasswordField);
+            jp.add(createNewCompanyAccount);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(createNewCompanyAccount)) {
+            String newAccountNumber = CustomerUtilities.createNewCompanyAccount(newCompanyNameField.getText(), newCompanyNumberField.getText(), newCompanyAdressField.getText(), newCompanyEmailField.getText(), newCompanyPasswordField.getText());
             jp.removeAll();
             logInResult.setText("Välkommen!\n Ditt kontonummer är " + newAccountNumber);
             jp.add(logInResult);

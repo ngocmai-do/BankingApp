@@ -1,4 +1,5 @@
 public class CorporateCustomer extends Customer {
+
     private String organizationNumber;
     private int shareOwned;
 

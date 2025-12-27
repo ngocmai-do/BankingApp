@@ -36,29 +36,56 @@ public class CustomerUtilities {
         return "Fel kontonummer!";
     }
 
-    public static String createNewAccount(String accountName, String accountAdress, String accountEmail, String accountPersonnummer, String accountPassword) {
+    public static String createNewCustomerAccount(String accountName, String accountAdress, String accountEmail, String accountPersonnummer, String accountPassword) {
         accountName = accountName.trim();
         accountAdress = accountAdress.trim();
         accountEmail = accountEmail.trim();
         accountPersonnummer = accountPersonnummer.trim();
         accountPassword = accountPassword.trim();
-        String theNewAccountNumber = getNewAccountNumber();
+        String theNewCustomerAccountNumber = getNewCustomerAccountNumber();
 
         try (FileWriter fw = new FileWriter(DatabaseReaderWriter.customerFileName, true)) {
-            fw.write("\n" + theNewAccountNumber + ";" + accountName + ";" + accountAdress + ";" + accountEmail + ";" + accountPersonnummer + ";" + accountPassword + ";" + "0");
-            Customer newCustomer = new PrivateCustomer(theNewAccountNumber, accountName, accountAdress, accountEmail, accountPersonnummer, accountPassword, 0);
+            fw.write("\n" + theNewCustomerAccountNumber + ";" + accountName + ";" + accountAdress + ";" + accountEmail + ";" + accountPersonnummer + ";" + accountPassword + ";" + "0");
+            Customer newCustomer = new PrivateCustomer(theNewCustomerAccountNumber, accountName, accountAdress, accountEmail, accountPersonnummer, accountPassword, 0);
             privateCustomerList.add(newCustomer);
         } catch (Exception e) {
             System.out.println("Error writing file");
         }
-        return theNewAccountNumber;
+        return theNewCustomerAccountNumber;
     }
 
-    public static String getNewAccountNumber() {
+    public static String createNewCompanyAccount(String accountName, String accountNumber, String accountAdress, String accountEmail, String accountPassword) {
+        accountName = accountName.trim();
+        accountNumber = accountNumber.trim();
+        accountAdress = accountAdress.trim();
+        accountEmail = accountEmail.trim();
+        accountPassword = accountPassword.trim();
+        String newCorporateAccountNumber = getNewCorporateAccountNumber();
+
+        try (FileWriter fw = new FileWriter(DatabaseReaderWriter.companyFileName, true)) {
+            fw.write("\n" + newCorporateAccountNumber + ";" + accountName + ";" + accountNumber + ";" + accountAdress + ";" + accountEmail + ";" + accountPassword + ";" + "0" + ";" + "0");
+            CorporateCustomer newCompany = new CorporateCustomer(accountName, newCorporateAccountNumber, accountNumber, accountAdress, accountEmail, accountPassword, 0, 0);
+            corporateCustomerList.add(newCompany);
+        } catch (Exception e) {
+            System.out.println("Error writing file");
+        }
+        return newCorporateAccountNumber;
+    }
+
+    public static String getNewCustomerAccountNumber() {
       Customer lastCustomer = privateCustomerList.get(privateCustomerList.size() - 1);
       String getLastCustomerNumber = lastCustomer.getAccountNumber();
       int lastCustomerNumber = Integer.parseInt(getLastCustomerNumber);
       lastCustomerNumber = lastCustomerNumber + 1;
       return String.valueOf(lastCustomerNumber);
     }
+
+    public static String getNewCorporateAccountNumber() {
+        Customer lastCompany = corporateCustomerList.get(corporateCustomerList.size() - 1);
+        String getLastCompanyNumber = lastCompany.getAccountNumber();
+        int lastCompanyNumber = Integer.parseInt(getLastCompanyNumber);
+        lastCompanyNumber = lastCompanyNumber + 1;
+        return String.valueOf(lastCompanyNumber);
+    }
 }
+
