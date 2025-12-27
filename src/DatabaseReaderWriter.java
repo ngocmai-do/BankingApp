@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class DatabaseReaderWriter {
 
     public static String customerFileName = "src/privateCustomer.txt";
+    public static String companyFileName = "src/corporateCustomer.txt";
     private static DatabaseReaderWriter databaseReaderWriter = new DatabaseReaderWriter();  //Singleton designmönster
 
     private DatabaseReaderWriter() {}
