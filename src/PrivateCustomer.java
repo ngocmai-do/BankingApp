@@ -9,7 +9,7 @@ public class PrivateCustomer extends Customer {
         this.personNummer = personNummer;
     }
 
-    public PrivateCustomer (String accountNumber, String name, String address, String email, String personNummer, String password, int balance) {
+    public PrivateCustomer(String accountNumber, String name, String address, String email, String personNummer, String password, int balance) {
         setAccountNumber(accountNumber);
         setName(name);
         setAddress(address);
