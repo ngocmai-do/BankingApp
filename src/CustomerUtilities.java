@@ -1,12 +1,14 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.Scanner;
 
 public class CustomerUtilities {
     static DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance();
     static List<Customer> privateCustomerList = databaseReaderWriter.readPrivateCustomerFile();
     static List<Customer> corporateCustomerList = databaseReaderWriter.readCorpCustomerFile();
 
-    public static String loggingIn (String accountNumber, String password) {
+    public static String loggingIn(String accountNumber, String password) {
         accountNumber = accountNumber.trim();
         password = password.trim();
 
@@ -73,11 +75,11 @@ public class CustomerUtilities {
     }
 
     public static String getNewCustomerAccountNumber() {
-      Customer lastCustomer = privateCustomerList.get(privateCustomerList.size() - 1);
-      String getLastCustomerNumber = lastCustomer.getAccountNumber();
-      int lastCustomerNumber = Integer.parseInt(getLastCustomerNumber);
-      lastCustomerNumber = lastCustomerNumber + 1;
-      return String.valueOf(lastCustomerNumber);
+        Customer lastCustomer = privateCustomerList.get(privateCustomerList.size() - 1);
+        String getLastCustomerNumber = lastCustomer.getAccountNumber();
+        int lastCustomerNumber = Integer.parseInt(getLastCustomerNumber);
+        lastCustomerNumber = lastCustomerNumber + 1;
+        return String.valueOf(lastCustomerNumber);
     }
 
     public static String getNewCorporateAccountNumber() {
@@ -87,5 +89,49 @@ public class CustomerUtilities {
         lastCompanyNumber = lastCompanyNumber + 1;
         return String.valueOf(lastCompanyNumber);
     }
+
+    public static String updatePrivateCustomerMoney(String accountNumber, int amountToAdd) {
+        try {
+            File file = new File(DatabaseReaderWriter.customerFileName);
+            Scanner in = new Scanner(file);
+
+            StringBuilder sb = new StringBuilder();
+            boolean found = false;
+
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] split = line.split(";");
+
+                    String customerAccountNumber = split[0];
+
+                    if (customerAccountNumber.equalsIgnoreCase(String.valueOf(accountNumber))) {
+                        String currentMoney = (split[6]);
+                        int theCurrentMoney = Integer.parseInt(currentMoney);
+
+                        theCurrentMoney += amountToAdd;
+                        String theTotalAmount = String.valueOf(theCurrentMoney);
+                        found = true;
+                        sb.append(customerAccountNumber).append(";").append(split[1]).append(";").append(split[2]).append(";").append(split[3]).append(";").append(split[4]).append(";").append(split[5]).append(";").append(theTotalAmount).append("\n");
+                    } else {
+                        sb.append(line).append("\n");
+                    }
+            }
+
+            in.close();
+
+            if (found) {
+                FileWriter fw = new FileWriter(file, false);
+                String newFileLines = sb.toString();
+                fw.write(newFileLines);
+                fw.close();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+
+        return String.valueOf(amountToAdd);
+    }
+
 }
 

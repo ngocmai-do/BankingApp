@@ -1,6 +1,7 @@
 import javax.swing.*;
+
 void main() {
 
-Program p = new Program();
+    Program p = new Program();
 
 }

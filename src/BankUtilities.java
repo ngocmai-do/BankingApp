@@ -5,7 +5,7 @@ public class BankUtilities {
     static List<Customer> privateCustomerList = databaseReaderWriter.readPrivateCustomerFile();
     static List<Customer> corporateCustomerList = databaseReaderWriter.readCorpCustomerFile();
 
-    public static String bankLogIn (String password) {
+    public static String bankLogIn(String password) {
         if (password.trim().equals("mai&farah")) {
             return "Välkommen!";
         } else {
@@ -18,7 +18,7 @@ public class BankUtilities {
                 "\nFöretag kunder:\n" + databaseReaderWriter.printCustomerList(corporateCustomerList);
     }
 
-    public static String lookUpCustomer (String name) {
+    public static String lookUpCustomer(String name) {
         name = name.trim();
 
         // Check private customers

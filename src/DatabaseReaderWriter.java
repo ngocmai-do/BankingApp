@@ -9,9 +9,10 @@ public class DatabaseReaderWriter {
     public static String companyFileName = "src/corporateCustomer.txt";
     private static DatabaseReaderWriter databaseReaderWriter = new DatabaseReaderWriter();  //Singleton designmönster
 
-    private DatabaseReaderWriter() {}
+    private DatabaseReaderWriter() {
+    }
 
-    public static DatabaseReaderWriter getInstance(){
+    public static DatabaseReaderWriter getInstance() {
         return databaseReaderWriter;
     }
 
@@ -33,8 +34,7 @@ public class DatabaseReaderWriter {
 
                 privateCustomerList.add(p);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             //System.exit(0);
         }
@@ -59,15 +59,14 @@ public class DatabaseReaderWriter {
 
                 corpCustomerList.add(p);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             //System.exit(0);
         }
         return corpCustomerList;
     }
 
-    public String printCustomerList (List<Customer> customerList) {
+    public String printCustomerList(List<Customer> customerList) {
         StringBuilder printResult = new StringBuilder();
         for (int i = 0; i < customerList.size(); i++) {
             printResult.append(customerList.get(i).getAllInfo()).append("\n");
@@ -75,7 +74,7 @@ public class DatabaseReaderWriter {
         return printResult.toString();
     }
 
-    public String getBankInfo () {
+    public String getBankInfo() {
         StringBuilder bankInfo = new StringBuilder();
         String temp;
 
@@ -85,36 +84,31 @@ public class DatabaseReaderWriter {
                 bankInfo.append(temp);
                 bankInfo.append("\n");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             //System.exit(0);
         }
         return bankInfo.toString();
     }
 
-//TO DO: this method will need to fix (thinking this will be used to add new customer of the bank)
-    public void writeDataToFile(String outFileName, String newCustomerInfo){
+    //TO DO: this method will need to fix (thinking this will be used to add new customer of the bank)
+    public void writeDataToFile(String outFileName, String newCustomerInfo) {
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(outFileName, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFileName, true))) {
             bw.write(newCustomerInfo);
             bw.newLine();
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             //e.printStackTrace();
             System.exit(0);
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Could not find file!");
             //e.printStackTrace();
             System.exit(0);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Could not write to file!");
             //e.printStackTrace();
             System.exit(0);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Unknown error!");
             //e.printStackTrace();
             System.exit(0);

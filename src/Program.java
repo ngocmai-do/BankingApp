@@ -16,6 +16,7 @@ public class Program extends JFrame implements ActionListener {
     JTextField passwordField = new JTextField(50);
     JButton logInButton = new JButton("Log In");
     JTextField logInResult = new JTextField(100);
+    JTextField moneyAddedToAccountField = new JTextField(100);
 
     JLabel newCustomerName = new JLabel("För och efternamn: ");
     JTextField newCustomerNameField = new JTextField(50);
@@ -29,6 +30,7 @@ public class Program extends JFrame implements ActionListener {
     JTextField newCustomerPasswordField = new JTextField(50);
     JButton createNewCustomerAccount = new JButton("Skapa");
     JButton createNewCompanyAccount = new JButton("Skapa");
+    JButton addMoneyToAccountButton = new JButton("Lägg till");
 
     JLabel newCompanyName = new JLabel("Företags namn: ");
     JTextField newCompanyNameField = new JTextField(50);
@@ -51,6 +53,7 @@ public class Program extends JFrame implements ActionListener {
     JLabel nameLabel = new JLabel("Kundens fullständiga namn:");
     JTextField nameField = new JTextField(50);
     JButton lookUpButton = new JButton("Sök kund");
+    JTextField addMoneyField = new JTextField(50);
 
     JButton goBack = new JButton("Tillbaka");
 
@@ -79,6 +82,7 @@ public class Program extends JFrame implements ActionListener {
         nyKund.addActionListener(this);
         jp.add(newCompany);
         newCompany.addActionListener(this);
+        addMoney.addActionListener(this);
 
         accountNumberField.addActionListener(this);
         passwordField.addActionListener(this);
@@ -92,6 +96,8 @@ public class Program extends JFrame implements ActionListener {
         goBack.addActionListener(this);
         createNewCustomerAccount.addActionListener(this);
         createNewCompanyAccount.addActionListener(this);
+        addMoneyField.addActionListener(this);
+        addMoneyToAccountButton.addActionListener(this);
 
         setSize(500, 300);
         setVisible(true);
@@ -100,7 +106,7 @@ public class Program extends JFrame implements ActionListener {
 
     }
 
-    public void afterLoggingIn (String logInResult) {
+    public void afterLoggingIn(String logInResult) {
         if (logInResult.startsWith("Välkommen")) {
             jp.add(seeBankingOptions);
         } else {
@@ -145,6 +151,7 @@ public class Program extends JFrame implements ActionListener {
                 logInResult.setText(result);
                 jp.add(logInResult);
                 afterLoggingIn(result);
+                jp.add(addMoney);
                 jp.add(goBack);
                 jp.repaint();
                 jp.revalidate();
@@ -196,7 +203,10 @@ public class Program extends JFrame implements ActionListener {
                 jp.revalidate();
             }
             if (programState.equals("kund")) {
-
+                jp.removeAll();
+                jp.add(addMoney);
+                jp.repaint();
+                jp.revalidate();
             }
         }
 
@@ -306,6 +316,26 @@ public class Program extends JFrame implements ActionListener {
             jp.repaint();
             jp.revalidate();
 
+        }
+
+        if (e.getSource().equals(addMoney)) {
+            jp.removeAll();
+            addMoneyField.setText("");
+            jp.add(addMoneyField);
+            jp.add(addMoneyToAccountButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(addMoneyToAccountButton)) {
+            String moneyAddedToAccount = CustomerUtilities.updatePrivateCustomerMoney(accountNumberField.getText(), Integer.parseInt(addMoneyField.getText()));
+            jp.removeAll();
+            moneyAddedToAccountField.setText("Pengarna har lagts till!");
+            jp.add(moneyAddedToAccountField);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
         }
 
     }

@@ -3,7 +3,7 @@ public class CorporateCustomer extends Customer {
     private String organizationNumber;
     private int shareOwned;
 
-    public CorporateCustomer (String accountNumber, String name, String organizationNumber, String address, String email, String password, int balance, int shareOwned) {
+    public CorporateCustomer(String accountNumber, String name, String organizationNumber, String address, String email, String password, int balance, int shareOwned) {
         setAccountNumber(accountNumber);
         setName(name);
         setAddress(address);
