@@ -8,6 +8,7 @@ public class Program extends JFrame implements ActionListener {
     JPanel jp = new JPanel();
     JTextArea bankInfoField = new JTextArea();
     JButton kund = new JButton("Kund");
+    JButton company = new JButton("Företag");
     JButton bank = new JButton("Bank");
 
     JLabel accountLabel = new JLabel("Kontonummer: ");
@@ -31,6 +32,11 @@ public class Program extends JFrame implements ActionListener {
     JButton createNewCustomerAccount = new JButton("Skapa");
     JButton createNewCompanyAccount = new JButton("Skapa");
     JButton addMoneyToAccountButton = new JButton("Lägg till");
+    JButton addBalanceToAccountButton = new JButton("Lägg till");
+    JButton addShareBalanceToAccountButton = new JButton("Lägg till");
+    JButton takeOutMoneyFromAccountButton = new JButton("Ta ut");
+    JButton takeOutShareMoneyFromAccountButton = new JButton("Ta ut");
+    JButton takeOutMoneyFromCustomerAccountButton = new JButton("Ta ut");
 
     JLabel newCompanyName = new JLabel("Företags namn: ");
     JTextField newCompanyNameField = new JTextField(50);
@@ -60,7 +66,11 @@ public class Program extends JFrame implements ActionListener {
     JButton nyKund = new JButton("Ny kund");
     JButton newCompany = new JButton("Nytt företag");
     JButton addMoney = new JButton("Sätt in pengar");
-    JButton taUtPengar = new JButton("Ta ut pengar");
+    JButton addBalance = new JButton("Sätt in pengar");
+    JButton addShareBalance = new JButton("Sätt in pengar(Aktier)");
+    JButton takeOutMoneyCompany = new JButton("Ta ut pengar");
+    JButton takeOutShareMoneyCompany = new JButton("Ta ut pengar(Aktier)");
+    JButton takeOutMoney = new JButton("Ta ut pengar");
 
     DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
 
@@ -76,6 +86,8 @@ public class Program extends JFrame implements ActionListener {
         this.add(bankInfoField, BorderLayout.SOUTH);
         jp.add(kund);
         kund.addActionListener(this);
+        jp.add(company);
+        company.addActionListener(this);
         jp.add(bank);
         bank.addActionListener(this);
         jp.add(nyKund);
@@ -83,6 +95,11 @@ public class Program extends JFrame implements ActionListener {
         jp.add(newCompany);
         newCompany.addActionListener(this);
         addMoney.addActionListener(this);
+        addBalance.addActionListener(this);
+        addShareBalance.addActionListener(this);
+        takeOutMoneyCompany.addActionListener(this);
+        takeOutMoney.addActionListener(this);
+        takeOutShareMoneyCompany.addActionListener(this);
 
         accountNumberField.addActionListener(this);
         passwordField.addActionListener(this);
@@ -98,6 +115,11 @@ public class Program extends JFrame implements ActionListener {
         createNewCompanyAccount.addActionListener(this);
         addMoneyField.addActionListener(this);
         addMoneyToAccountButton.addActionListener(this);
+        addBalanceToAccountButton.addActionListener(this);
+        addShareBalanceToAccountButton.addActionListener(this);
+        takeOutMoneyFromAccountButton.addActionListener(this);
+        takeOutShareMoneyFromAccountButton.addActionListener(this);
+        takeOutMoneyFromCustomerAccountButton.addActionListener(this);
 
         setSize(500, 300);
         setVisible(true);
@@ -143,6 +165,22 @@ public class Program extends JFrame implements ActionListener {
             programState = "kund";
         }
 
+        if (e.getSource().equals(company)) {
+            jp.removeAll();
+            jp.setLayout(new GridLayout(3, 2));
+            accountNumberField.setText("");
+            passwordField.setText("");
+            jp.add(accountLabel);
+            jp.add(accountNumberField);
+            jp.add(passwordLabel);
+            jp.add(passwordField);
+            jp.add(logInButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+            programState = "Företag";
+        }
+
         if (e.getSource().equals(logInButton)) {
             String result;
             if (programState.equals("kund")) {
@@ -152,6 +190,21 @@ public class Program extends JFrame implements ActionListener {
                 jp.add(logInResult);
                 afterLoggingIn(result);
                 jp.add(addMoney);
+                jp.add(takeOutMoney);
+                jp.add(goBack);
+                jp.repaint();
+                jp.revalidate();
+            }
+            if (programState.equals("Företag")) {
+                result = CustomerUtilities.loggingIn(accountNumberField.getText(), passwordField.getText());
+                jp.removeAll();
+                logInResult.setText(result);
+                jp.add(logInResult);
+                afterLoggingIn(result);
+                jp.add(addBalance);
+                jp.add(addShareBalance);
+                jp.add(takeOutMoneyCompany);
+                jp.add(takeOutShareMoneyCompany);
                 jp.add(goBack);
                 jp.repaint();
                 jp.revalidate();
@@ -169,6 +222,20 @@ public class Program extends JFrame implements ActionListener {
         }
 
         if (e.getSource().equals(tryAgain) && programState.equals("kund")) {
+            jp.removeAll();
+            accountNumberField.setText("");
+            passwordField.setText("");
+            jp.add(accountLabel);
+            jp.add(accountNumberField);
+            jp.add(passwordLabel);
+            jp.add(passwordField);
+            jp.add(logInButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(tryAgain) && programState.equals("Företag")) {
             jp.removeAll();
             accountNumberField.setText("");
             passwordField.setText("");
@@ -205,6 +272,16 @@ public class Program extends JFrame implements ActionListener {
             if (programState.equals("kund")) {
                 jp.removeAll();
                 jp.add(addMoney);
+                jp.add(takeOutMoney);
+                jp.repaint();
+                jp.revalidate();
+            }
+            if (programState.equals("Företag")) {
+                jp.removeAll();
+                jp.add(addBalance);
+                jp.add(addShareBalance);
+                jp.add(takeOutMoneyCompany);
+                jp.add(takeOutShareMoneyCompany);
                 jp.repaint();
                 jp.revalidate();
             }
@@ -243,6 +320,7 @@ public class Program extends JFrame implements ActionListener {
         if (e.getSource().equals(goBack)) {
             jp.removeAll();
             jp.add(kund);
+            jp.add(company);
             jp.add(bank);
             jp.add(nyKund);
             jp.add(newCompany);
@@ -332,6 +410,106 @@ public class Program extends JFrame implements ActionListener {
             String moneyAddedToAccount = CustomerUtilities.updatePrivateCustomerMoney(accountNumberField.getText(), Integer.parseInt(addMoneyField.getText()));
             jp.removeAll();
             moneyAddedToAccountField.setText("Pengarna har lagts till!");
+            jp.add(moneyAddedToAccountField);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(takeOutMoney)) {
+            jp.removeAll();
+            addMoneyField.setText("");
+            jp.add(addMoneyField);
+            jp.add(takeOutMoneyFromCustomerAccountButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(takeOutMoneyFromCustomerAccountButton)) {
+            String anountTakenFromAccount = CustomerUtilities.updatePrivateCustomerMoney(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+            jp.removeAll();
+            moneyAddedToAccountField.setText("Pengarna har tagits ut");
+            jp.add(moneyAddedToAccountField);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(addBalance)) {
+            jp.removeAll();
+            addMoneyField.setText("");
+            jp.add(addMoneyField);
+            jp.add(addBalanceToAccountButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(addBalanceToAccountButton)) {
+            String balanceAddedToAccount = CustomerUtilities.updateCorporateBalance(accountNumberField.getText(), Integer.parseInt(addMoneyField.getText()));
+            jp.removeAll();
+            moneyAddedToAccountField.setText("Pengarna har lagts till!");
+            jp.add(moneyAddedToAccountField);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(addShareBalance)) {
+            jp.removeAll();
+            addMoneyField.setText("");
+            jp.add(addMoneyField);
+            jp.add(addShareBalanceToAccountButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(addShareBalanceToAccountButton)) {
+            String anountTakenFromAccount = CustomerUtilities.updateCorporateShareBalance(accountNumberField.getText(), Integer.parseInt(addMoneyField.getText()));
+            jp.removeAll();
+            moneyAddedToAccountField.setText("Pengarna har lagts till!");
+            jp.add(moneyAddedToAccountField);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(takeOutMoneyCompany)) {
+            jp.removeAll();
+            addMoneyField.setText("");
+            jp.add(addMoneyField);
+            jp.add(takeOutMoneyFromAccountButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(takeOutMoneyFromAccountButton)) {
+            String anountTakenFromAccount = CustomerUtilities.updateCorporateBalance(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+            jp.removeAll();
+            moneyAddedToAccountField.setText("Pengarna har tagits ut");
+            jp.add(moneyAddedToAccountField);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(takeOutShareMoneyCompany)) {
+            jp.removeAll();
+            addMoneyField.setText("");
+            jp.add(addMoneyField);
+            jp.add(takeOutShareMoneyFromAccountButton);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(takeOutShareMoneyFromAccountButton)) {
+            String anountTakenFromAccount = CustomerUtilities.updateCorporateShareBalance(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+            jp.removeAll();
+            moneyAddedToAccountField.setText("Pengarna har tagits ut");
             jp.add(moneyAddedToAccountField);
             jp.add(goBack);
             jp.repaint();

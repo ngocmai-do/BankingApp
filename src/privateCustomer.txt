@@ -1,5 +1,5 @@
 AccountNumber;Name;Address;Email;Personnummer;Password;Balance
-123456;Farah Sleiman; A 1, 1234 Stockholm;farah@gmail.com;12367;123;1300
+123456;Farah Sleiman; AprilV 1, 1234 Stockholm;farah@gmail.com;12367;123;900
 500101;Fredrik Berggren;Skolgränd 8, 16819 Norrköping;fredde@fakemail.se;851020-6728;$2y$fredrik123;152340
 500102;Astrid Larsson;Järnvägsvägen 5, 64230 Gävle;asta@fakemail.de;540815-4382;$2y$astrid123;98450
 500103;Pia Johansson;Idrottsvägen 1, 77845 Landskrona;anne31@fakemail.de;361026-1822;$2y$pia123;12450
