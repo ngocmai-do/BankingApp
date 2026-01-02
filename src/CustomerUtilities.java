@@ -102,19 +102,19 @@ public class CustomerUtilities {
                 String line = in.nextLine();
                 String[] split = line.split(";");
 
-                    String customerAccountNumber = split[0];
+                String customerAccountNumber = split[0];
 
-                    if (customerAccountNumber.equalsIgnoreCase(String.valueOf(accountNumber))) {
-                        String currentMoney = (split[6]);
-                        int theCurrentMoney = Integer.parseInt(currentMoney);
+                if (customerAccountNumber.equalsIgnoreCase(String.valueOf(accountNumber))) {
+                    String currentMoney = (split[6]);
+                    int theCurrentMoney = Integer.parseInt(currentMoney);
 
-                        theCurrentMoney += amountToAdd;
-                        String theTotalAmount = String.valueOf(theCurrentMoney);
-                        found = true;
-                        sb.append(customerAccountNumber).append(";").append(split[1]).append(";").append(split[2]).append(";").append(split[3]).append(";").append(split[4]).append(";").append(split[5]).append(";").append(theTotalAmount).append("\n");
-                    } else {
-                        sb.append(line).append("\n");
-                    }
+                    theCurrentMoney += amountToAdd;
+                    String theTotalAmount = String.valueOf(theCurrentMoney);
+                    found = true;
+                    sb.append(customerAccountNumber).append(";").append(split[1]).append(";").append(split[2]).append(";").append(split[3]).append(";").append(split[4]).append(";").append(split[5]).append(";").append(theTotalAmount).append("\n");
+                } else {
+                    sb.append(line).append("\n");
+                }
             }
 
             in.close();
@@ -133,5 +133,108 @@ public class CustomerUtilities {
         return String.valueOf(amountToAdd);
     }
 
+    public static String updateCorporateBalance(String accountNumber, int amountToAdd) {
+        try {
+            File file = new File(DatabaseReaderWriter.companyFileName);
+            Scanner in = new Scanner(file);
+
+            StringBuilder sb = new StringBuilder();
+            boolean found = false;
+
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] split = line.split(";");
+                boolean isNotLastLine = in.hasNextLine();
+
+                String companyAccountNumber = split[0];
+
+                if (companyAccountNumber.equalsIgnoreCase(String.valueOf(accountNumber))) {
+                    String currentBalance = (split[7]);
+                    int theCurrentBalance = Integer.parseInt(currentBalance);
+
+                    theCurrentBalance += amountToAdd;
+                    String theTotalAmount = String.valueOf(theCurrentBalance);
+                    found = true;
+                    String lineToAdd = companyAccountNumber + ";" + split[1] + ";" + split[2] + ";" + split[3] + ";" + split[4] + ";" + split[5] + ";" + theTotalAmount + ";" + split[7];
+                    if (isNotLastLine) {
+                        lineToAdd += "\n";
+                    }
+                    sb.append(lineToAdd);
+                } else {
+                    if (isNotLastLine) {
+                        sb.append(line).append("\n");
+                    } else {
+                        sb.append(line);
+                    }
+                }
+            }
+
+            in.close();
+
+            if (found) {
+                FileWriter fw = new FileWriter(file, false);
+                String newFileLines = sb.toString();
+                fw.write(newFileLines);
+                fw.close();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+
+        return String.valueOf(amountToAdd);
+    }
+
+    public static String updateCorporateShareBalance(String accountNumber, int amountToAdd) {
+        try {
+            File file = new File(DatabaseReaderWriter.companyFileName);
+            Scanner in = new Scanner(file);
+
+            StringBuilder sb = new StringBuilder();
+            boolean found = false;
+
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] split = line.split(";");
+                boolean isNotLastLine = in.hasNextLine();
+
+                String companyAccountNumber = split[0];
+
+                if (companyAccountNumber.equalsIgnoreCase(String.valueOf(accountNumber))) {
+                    String currentBalance = (split[7]);
+                    int theCurrentBalance = Integer.parseInt(currentBalance);
+
+                    theCurrentBalance += amountToAdd;
+                    String theTotalAmount = String.valueOf(theCurrentBalance);
+                    found = true;
+                    String lineToAdd = companyAccountNumber + ";" + split[1] + ";" + split[2] + ";" + split[3] + ";" + split[4] + ";" + split[5] + ";" + split[6] + ";" + theTotalAmount;
+                    if (isNotLastLine) {
+                        lineToAdd += "\n";
+                    }
+                    sb.append(lineToAdd);
+                } else {
+                    if (isNotLastLine) {
+                        sb.append(line).append("\n");
+                    } else {
+                        sb.append(line);
+                    }
+                }
+            }
+            in.close();
+
+            if (found) {
+                FileWriter fw = new FileWriter(file, false);
+                String newFileLines = sb.toString();
+                fw.write(newFileLines);
+                fw.close();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+
+        return String.valueOf(amountToAdd);
+
+    }
 }
 
