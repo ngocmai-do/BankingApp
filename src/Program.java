@@ -52,7 +52,7 @@ public class Program extends JFrame implements ActionListener {
     JButton tryAgain = new JButton("Försök igen");
     JButton seeBankingOptions = new JButton("Se bankalternativ");
 
-    JButton seeAllCustomer = new JButton("Se alla kunders information");
+    JButton seeAllCustomerButton = new JButton("Se alla kunders information");
     JTextArea allCustomerInfo = new JTextArea();
     JScrollPane scrollPane = new JScrollPane(allCustomerInfo);
     JButton lookUpCustomer = new JButton("Sök kund");
@@ -106,7 +106,7 @@ public class Program extends JFrame implements ActionListener {
         logInButton.addActionListener(this);
         tryAgain.addActionListener(this);
         seeBankingOptions.addActionListener(this);
-        seeAllCustomer.addActionListener(this);
+        seeAllCustomerButton.addActionListener(this);
         lookUpCustomer.addActionListener(this);
         nameField.addActionListener(this);
         lookUpButton.addActionListener(this);
@@ -263,7 +263,7 @@ public class Program extends JFrame implements ActionListener {
         if (e.getSource().equals(seeBankingOptions)) {
             if (programState.equals("bank")) {
                 jp.removeAll();
-                jp.add(seeAllCustomer);
+                jp.add(seeAllCustomerButton);
                 jp.add(lookUpCustomer);
                 jp.add(goBack);
                 jp.repaint();
@@ -287,13 +287,13 @@ public class Program extends JFrame implements ActionListener {
             }
         }
 
-        if (e.getSource().equals(seeAllCustomer)) {
+        if (e.getSource().equals(seeAllCustomerButton)) {
             jp.removeAll();
-            allCustomerInfo.setText(BankUtilities.seeAllCustomer());
             jp.setLayout(new BorderLayout());
+            allCustomerInfo.setText(BankUtilities.seeAllCustomer());
             jp.add(scrollPane, BorderLayout.CENTER);
+            jp.add(goBack, BorderLayout.SOUTH);
             setSize(1000, 700);
-            jp.add(goBack);
             jp.repaint();
             jp.revalidate();
         }
@@ -319,11 +319,13 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(goBack)) {
             jp.removeAll();
+            jp.setLayout(new GridLayout(3, 2));
             jp.add(kund);
             jp.add(company);
             jp.add(bank);
             jp.add(nyKund);
             jp.add(newCompany);
+            setSize(500, 300);
             jp.repaint();
             jp.revalidate();
         }
