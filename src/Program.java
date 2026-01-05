@@ -64,8 +64,8 @@ public class Program extends JFrame implements ActionListener {
 
     JButton goBack = new JButton("Tillbaka");
 
-    JButton nyKund = new JButton("Ny kund");
-    JButton newCompany = new JButton("Nytt företag");
+    JButton newPrivateCustomer = new JButton("Ny kund");
+    JButton newCompanyCustomer = new JButton("Nytt företag");
     JButton addMoney = new JButton("Sätt in pengar");
     JButton addBalance = new JButton("Sätt in pengar");
     JButton addShareBalance = new JButton("Sätt in pengar(Aktier)");
@@ -92,8 +92,8 @@ public class Program extends JFrame implements ActionListener {
         companyCustomer.addActionListener(this);
         privateCustomer.addActionListener(this);
         bank.addActionListener(this);
-        nyKund.addActionListener(this);
-        newCompany.addActionListener(this);
+        newPrivateCustomer.addActionListener(this);
+        newCompanyCustomer.addActionListener(this);
         addMoney.addActionListener(this);
         addBalance.addActionListener(this);
         addShareBalance.addActionListener(this);
@@ -121,7 +121,7 @@ public class Program extends JFrame implements ActionListener {
         takeOutShareMoneyFromAccountButton.addActionListener(this);
         takeOutMoneyFromCustomerAccountButton.addActionListener(this);
 
-        setSize(500, 300);
+        setSize(500, 400);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,7 +162,7 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(companyCustomer) || e.getSource().equals(privateCustomer)) {
             jp.removeAll();
-            jp.setLayout(new GridLayout(3, 2));
+            jp.setLayout(new GridLayout(5, 2));
             accountNumberField.setText("");
             passwordField.setText("");
             jp.add(accountLabel);
@@ -171,14 +171,16 @@ public class Program extends JFrame implements ActionListener {
             jp.add(passwordField);
             jp.add(logInButton);
             jp.add(goBack);
-            jp.repaint();
-            jp.revalidate();
             if (e.getSource().equals(companyCustomer)) {
                 programState = "Företag";
+                jp.add(newCompanyCustomer);
             }
             else {
                 programState = "Privat";
+                jp.add(newPrivateCustomer);
             }
+            jp.repaint();
+            jp.revalidate();
         }
 
         if (e.getSource().equals(logInButton)) {
@@ -305,13 +307,14 @@ public class Program extends JFrame implements ActionListener {
             jp.setLayout(new GridLayout(3, 2));
             jp.add(kund);
             jp.add(bank);
-            setSize(500, 300);
+            setSize(500, 400);
             jp.repaint();
             jp.revalidate();
         }
 
-        if (e.getSource().equals(nyKund)) {
+        if (e.getSource().equals(newPrivateCustomer)) {
             jp.removeAll();
+            jp.setLayout(new GridLayout(6, 2));
             jp.add(newCustomerName);
             newCustomerNameField.setText("");
             jp.add(newCustomerNameField);
@@ -344,8 +347,9 @@ public class Program extends JFrame implements ActionListener {
 
         }
 
-        if (e.getSource().equals(newCompany)) {
+        if (e.getSource().equals(newCompanyCustomer)) {
             jp.removeAll();
+            jp.setLayout(new GridLayout(6, 2));
             jp.add(newCompanyName);
             newCompanyNameField.setText("");
             jp.add(newCompanyNameField);
