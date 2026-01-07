@@ -236,5 +236,60 @@ public class CustomerUtilities {
         return String.valueOf(amountToAdd);
 
     }
+
+    public static int getAccountBalanceCustomer(String accountNumber) {
+        accountNumber = accountNumber.trim();
+
+        try (Scanner in = new Scanner(new File(DatabaseReaderWriter.customerFileName))) {
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] split = line.split(";");
+
+                if (split[0].equalsIgnoreCase(accountNumber)) {
+                    return Integer.parseInt(split[6]);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public static int getAccountBalanceCorporate(String accountNumber) {
+        accountNumber = accountNumber.trim();
+
+        try (Scanner in = new Scanner(new File(DatabaseReaderWriter.companyFileName))) {
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] split = line.split(";");
+
+                if (split[0].equalsIgnoreCase(accountNumber)) {
+                    return Integer.parseInt(split[6]);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public static int getAccountShareBalanceCorporate(String accountNumber) {
+        accountNumber = accountNumber.trim();
+
+        try (Scanner in = new Scanner(new File(DatabaseReaderWriter.companyFileName))) {
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] split = line.split(";");
+
+                if (split[0].equalsIgnoreCase(accountNumber)) {
+                    return Integer.parseInt(split[7]);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating file: " + e.getMessage());
+        }
+        return -1;
+    }
+
 }
 

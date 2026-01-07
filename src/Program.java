@@ -35,7 +35,7 @@ public class Program extends JFrame implements ActionListener {
     JButton addMoneyToAccountButton = new JButton("Lägg till");
     JButton addBalanceToAccountButton = new JButton("Lägg till");
     JButton addShareBalanceToAccountButton = new JButton("Lägg till");
-    JButton takeOutMoneyFromAccountButton = new JButton("Ta ut");
+    JButton takeOutMoneyFromCorporateAccountButton = new JButton("Ta ut");
     JButton takeOutShareMoneyFromAccountButton = new JButton("Ta ut");
     JButton takeOutMoneyFromCustomerAccountButton = new JButton("Ta ut");
 
@@ -117,7 +117,7 @@ public class Program extends JFrame implements ActionListener {
         addMoneyToAccountButton.addActionListener(this);
         addBalanceToAccountButton.addActionListener(this);
         addShareBalanceToAccountButton.addActionListener(this);
-        takeOutMoneyFromAccountButton.addActionListener(this);
+        takeOutMoneyFromCorporateAccountButton.addActionListener(this);
         takeOutShareMoneyFromAccountButton.addActionListener(this);
         takeOutMoneyFromCustomerAccountButton.addActionListener(this);
 
@@ -413,10 +413,16 @@ public class Program extends JFrame implements ActionListener {
         }
 
         if (e.getSource().equals(takeOutMoneyFromCustomerAccountButton)) {
-            String anountTakenFromAccount = CustomerUtilities.updatePrivateCustomerMoney(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
             jp.removeAll();
-            moneyAddedToAccountField.setText("Pengarna har tagits ut");
-            jp.add(moneyAddedToAccountField);
+            if (Integer.parseInt(addMoneyField.getText()) > CustomerUtilities.getAccountBalanceCustomer(accountNumberField.getText())) {
+                moneyAddedToAccountField.setText("Du har inte tillräckligt med pengar");
+                jp.add(moneyAddedToAccountField);
+            }
+            else {
+                String amountTakenFromAccount = CustomerUtilities.updatePrivateCustomerMoney(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+                moneyAddedToAccountField.setText("Pengarna har tagits ut");
+                jp.add(moneyAddedToAccountField);
+            }
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -453,7 +459,7 @@ public class Program extends JFrame implements ActionListener {
         }
 
         if (e.getSource().equals(addShareBalanceToAccountButton)) {
-            String anountTakenFromAccount = CustomerUtilities.updateCorporateShareBalance(accountNumberField.getText(), Integer.parseInt(addMoneyField.getText()));
+            String amountTakenFromAccount = CustomerUtilities.updateCorporateShareBalance(accountNumberField.getText(), Integer.parseInt(addMoneyField.getText()));
             jp.removeAll();
             moneyAddedToAccountField.setText("Pengarna har lagts till!");
             jp.add(moneyAddedToAccountField);
@@ -466,17 +472,23 @@ public class Program extends JFrame implements ActionListener {
             jp.removeAll();
             addMoneyField.setText("");
             jp.add(addMoneyField);
-            jp.add(takeOutMoneyFromAccountButton);
+            jp.add(takeOutMoneyFromCorporateAccountButton);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
         }
 
-        if (e.getSource().equals(takeOutMoneyFromAccountButton)) {
-            String anountTakenFromAccount = CustomerUtilities.updateCorporateBalance(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+        if (e.getSource().equals(takeOutMoneyFromCorporateAccountButton)) {
             jp.removeAll();
-            moneyAddedToAccountField.setText("Pengarna har tagits ut");
-            jp.add(moneyAddedToAccountField);
+            if (Integer.parseInt(addMoneyField.getText()) > CustomerUtilities.getAccountBalanceCorporate(accountNumberField.getText())) {
+                moneyAddedToAccountField.setText("Du har inte tillräckligt med pengar");
+                jp.add(moneyAddedToAccountField);
+            }
+            else {
+                String amountTakenFromAccount = CustomerUtilities.updateCorporateBalance(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+                moneyAddedToAccountField.setText("Pengarna har tagits ut");
+                jp.add(moneyAddedToAccountField);
+            }
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -493,10 +505,16 @@ public class Program extends JFrame implements ActionListener {
         }
 
         if (e.getSource().equals(takeOutShareMoneyFromAccountButton)) {
-            String anountTakenFromAccount = CustomerUtilities.updateCorporateShareBalance(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
             jp.removeAll();
-            moneyAddedToAccountField.setText("Pengarna har tagits ut");
-            jp.add(moneyAddedToAccountField);
+            if (Integer.parseInt(addMoneyField.getText()) > CustomerUtilities.getAccountShareBalanceCorporate(accountNumberField.getText())) {
+                moneyAddedToAccountField.setText("Du har inte tillräckligt med pengar");
+                jp.add(moneyAddedToAccountField);
+            }
+            else {
+                String amountTakenFromAccount = CustomerUtilities.updateCorporateShareBalance(accountNumberField.getText(), -Integer.parseInt(addMoneyField.getText()));
+                moneyAddedToAccountField.setText("Pengarna har tagits ut");
+                jp.add(moneyAddedToAccountField);
+            }
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
