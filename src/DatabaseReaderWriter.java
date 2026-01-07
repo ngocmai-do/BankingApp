@@ -91,27 +91,5 @@ public class DatabaseReaderWriter {
         return bankInfo.toString();
     }
 
-    //TO DO: this method will need to fix (thinking this will be used to add new customer of the bank)
-    public void writeDataToFile(String outFileName, String newCustomerInfo) {
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFileName, true))) {
-            bw.write(newCustomerInfo);
-            bw.newLine();
-        } catch (NullPointerException e) {
-            //e.printStackTrace();
-            System.exit(0);
-        } catch (FileNotFoundException e) {
-            System.out.println("Could not find file!");
-            //e.printStackTrace();
-            System.exit(0);
-        } catch (IOException e) {
-            System.out.println("Could not write to file!");
-            //e.printStackTrace();
-            System.exit(0);
-        } catch (Exception e) {
-            System.out.println("Unknown error!");
-            //e.printStackTrace();
-            System.exit(0);
-        }
-    }
 }
