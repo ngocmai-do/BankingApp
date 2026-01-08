@@ -73,6 +73,10 @@ public class Program extends JFrame implements ActionListener {
     JButton takeOutShareMoneyCompany = new JButton("Ta ut pengar(Aktier)");
     JButton takeOutMoney = new JButton("Ta ut pengar");
 
+    JLabel amountInAccountPrivateCustomer = new JLabel();
+    JLabel amountInCompanyAccount = new JLabel();
+    JLabel amountInCompanyShareAccount = new JLabel();
+
     DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
 
     String programState;
@@ -384,6 +388,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(addMoney)) {
             jp.removeAll();
+            int balance = CustomerUtilities.getAccountBalanceCustomer(accountNumberField.getText());
+            amountInAccountPrivateCustomer.setText("Saldo: " + balance + "kr");
+            jp.add(amountInAccountPrivateCustomer);
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(addMoneyToAccountButton);
@@ -404,6 +411,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(takeOutMoney)) {
             jp.removeAll();
+            int balance = CustomerUtilities.getAccountBalanceCustomer(accountNumberField.getText());
+            amountInAccountPrivateCustomer.setText("Saldo: " + balance + "kr");
+            jp.add(amountInAccountPrivateCustomer);
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(takeOutMoneyFromCustomerAccountButton);
@@ -430,6 +440,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(addBalance)) {
             jp.removeAll();
+            int balance = CustomerUtilities.getAccountBalanceCorporate(accountNumberField.getText());
+            amountInCompanyAccount.setText("Saldo: " + balance + "kr");
+            jp.add(amountInCompanyAccount);
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(addBalanceToAccountButton);
@@ -450,6 +463,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(addShareBalance)) {
             jp.removeAll();
+            int balance = CustomerUtilities.getAccountShareBalanceCorporate(accountNumberField.getText());
+            amountInCompanyShareAccount.setText("Saldo: " + balance + "kr");
+            jp.add(amountInCompanyShareAccount);
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(addShareBalanceToAccountButton);
@@ -470,6 +486,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(takeOutMoneyCompany)) {
             jp.removeAll();
+            int balance = CustomerUtilities.getAccountBalanceCorporate(accountNumberField.getText());
+            amountInCompanyAccount.setText("Saldo: " + balance + "kr");
+            jp.add(amountInCompanyAccount);
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(takeOutMoneyFromCorporateAccountButton);
@@ -496,6 +515,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(takeOutShareMoneyCompany)) {
             jp.removeAll();
+            int balance = CustomerUtilities.getAccountShareBalanceCorporate(accountNumberField.getText());
+            amountInCompanyShareAccount.setText("Saldo: " + balance + "kr");
+            jp.add(amountInCompanyShareAccount);
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(takeOutShareMoneyFromAccountButton);
