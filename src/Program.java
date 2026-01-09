@@ -61,11 +61,13 @@ public class Program extends JFrame implements ActionListener {
     JTextField nameField = new JTextField(50);
     JButton lookUpButton = new JButton("Sök kund");
     JTextField addMoneyField = new JTextField(50);
+    JTextField customerInfoField = new JTextField(100);
 
-    JButton goBack = new JButton("Tillbaka");
+    JButton goBack = new JButton("Tillbaka till huvudmenyn");
+    JButton goBackBankOption = new JButton("Tillbaka till bankalternativ");
 
-    JButton newPrivateCustomer = new JButton("Ny kund");
-    JButton newCompanyCustomer = new JButton("Nytt företag");
+    JButton newPrivateCustomer = new JButton("Skapa ett nytt privatkundskonto");
+    JButton newCompanyCustomer = new JButton("Skapa ett nytt företagskonto");
     JButton addMoney = new JButton("Sätt in pengar");
     JButton addBalance = new JButton("Sätt in pengar");
     JButton addShareBalance = new JButton("Sätt in pengar(Aktier)");
@@ -76,6 +78,10 @@ public class Program extends JFrame implements ActionListener {
     JLabel amountInAccountPrivateCustomer = new JLabel();
     JLabel amountInCompanyAccount = new JLabel();
     JLabel amountInCompanyShareAccount = new JLabel();
+
+    JButton seeBalance = new JButton("Se balans");
+    JButton seeShareBalance = new JButton("Se aktier balans");
+    JTextField seeBalanceResult = new JTextField(50);
 
     DatabaseReaderWriter databaseReaderWriter = DatabaseReaderWriter.getInstance(); //Singleton designmönster
 
@@ -115,6 +121,7 @@ public class Program extends JFrame implements ActionListener {
         nameField.addActionListener(this);
         lookUpButton.addActionListener(this);
         goBack.addActionListener(this);
+        goBackBankOption.addActionListener(this);
         createNewCustomerAccount.addActionListener(this);
         createNewCompanyAccount.addActionListener(this);
         addMoneyField.addActionListener(this);
@@ -124,6 +131,9 @@ public class Program extends JFrame implements ActionListener {
         takeOutMoneyFromCorporateAccountButton.addActionListener(this);
         takeOutShareMoneyFromAccountButton.addActionListener(this);
         takeOutMoneyFromCustomerAccountButton.addActionListener(this);
+        seeBalance.addActionListener(this);
+        seeShareBalance.addActionListener(this);
+        seeBalanceResult.addActionListener(this);
 
         setSize(500, 400);
         setVisible(true);
@@ -247,12 +257,14 @@ public class Program extends JFrame implements ActionListener {
             jp.revalidate();
         }
 
-        if (e.getSource().equals(seeBankingOptions)) {
+        if (e.getSource().equals(seeBankingOptions) || e.getSource().equals(goBackBankOption)) {
             if (programState.equals("bank")) {
                 jp.removeAll();
+                jp.setLayout(new GridLayout(3, 2));
                 jp.add(seeAllCustomerButton);
                 jp.add(lookUpCustomer);
                 jp.add(goBack);
+                setSize(500, 400);
                 jp.repaint();
                 jp.revalidate();
             }
@@ -260,6 +272,7 @@ public class Program extends JFrame implements ActionListener {
                 jp.removeAll();
                 jp.add(addMoney);
                 jp.add(takeOutMoney);
+                jp.add(seeBalance);
                 jp.add(goBack);
                 jp.repaint();
                 jp.revalidate();
@@ -270,6 +283,8 @@ public class Program extends JFrame implements ActionListener {
                 jp.add(addShareBalance);
                 jp.add(takeOutMoneyCompany);
                 jp.add(takeOutShareMoneyCompany);
+                jp.add(seeBalance);
+                jp.add(seeShareBalance);
                 jp.add(goBack);
                 jp.repaint();
                 jp.revalidate();
@@ -280,27 +295,35 @@ public class Program extends JFrame implements ActionListener {
             jp.removeAll();
             jp.setLayout(new BorderLayout());
             allCustomerInfo.setText(BankUtilities.seeAllCustomer());
+            JPanel southPanel = new JPanel();
+            southPanel.add(goBackBankOption);
+            southPanel.add(goBack);
             jp.add(scrollPane, BorderLayout.CENTER);
-            jp.add(goBack, BorderLayout.SOUTH);
-            setSize(1000, 700);
+            jp.add(southPanel, BorderLayout.SOUTH);
+            setSize(1000, 750);
             jp.repaint();
             jp.revalidate();
         }
 
         if (e.getSource().equals(lookUpCustomer)) {
             jp.removeAll();
+            jp.setLayout(new GridLayout(3, 2));
             jp.add(nameLabel);
+            nameField.setText("");
             jp.add(nameField);
             jp.add(lookUpButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
+            setSize(500, 400);
             jp.repaint();
             jp.revalidate();
         }
 
         if (e.getSource().equals(lookUpButton)) {
             jp.removeAll();
-            allCustomerInfo.setText(BankUtilities.lookUpCustomer(nameField.getText()));
-            jp.add(allCustomerInfo);
+            customerInfoField.setText(BankUtilities.lookUpCustomer(nameField.getText()));
+            jp.add(customerInfoField);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -394,6 +417,7 @@ public class Program extends JFrame implements ActionListener {
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(addMoneyToAccountButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -404,6 +428,7 @@ public class Program extends JFrame implements ActionListener {
             jp.removeAll();
             moneyAddedToAccountField.setText("Pengarna har lagts till!");
             jp.add(moneyAddedToAccountField);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -417,6 +442,7 @@ public class Program extends JFrame implements ActionListener {
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(takeOutMoneyFromCustomerAccountButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -433,6 +459,7 @@ public class Program extends JFrame implements ActionListener {
                 moneyAddedToAccountField.setText("Pengarna har tagits ut");
                 jp.add(moneyAddedToAccountField);
             }
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -446,6 +473,7 @@ public class Program extends JFrame implements ActionListener {
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(addBalanceToAccountButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -456,6 +484,7 @@ public class Program extends JFrame implements ActionListener {
             jp.removeAll();
             moneyAddedToAccountField.setText("Pengarna har lagts till!");
             jp.add(moneyAddedToAccountField);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -469,6 +498,7 @@ public class Program extends JFrame implements ActionListener {
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(addShareBalanceToAccountButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -479,6 +509,7 @@ public class Program extends JFrame implements ActionListener {
             jp.removeAll();
             moneyAddedToAccountField.setText("Pengarna har lagts till!");
             jp.add(moneyAddedToAccountField);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -492,6 +523,7 @@ public class Program extends JFrame implements ActionListener {
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(takeOutMoneyFromCorporateAccountButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -508,6 +540,7 @@ public class Program extends JFrame implements ActionListener {
                 moneyAddedToAccountField.setText("Pengarna har tagits ut");
                 jp.add(moneyAddedToAccountField);
             }
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -521,6 +554,7 @@ public class Program extends JFrame implements ActionListener {
             addMoneyField.setText("");
             jp.add(addMoneyField);
             jp.add(takeOutShareMoneyFromAccountButton);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
@@ -537,6 +571,32 @@ public class Program extends JFrame implements ActionListener {
                 moneyAddedToAccountField.setText("Pengarna har tagits ut");
                 jp.add(moneyAddedToAccountField);
             }
+            jp.add(goBackBankOption);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(seeBalance)) {
+            jp.removeAll();
+            if (programState.equals("Företag")) {
+                seeBalanceResult.setText(String.valueOf(CustomerUtilities.getAccountBalanceCorporate(accountNumberField.getText())));
+            }
+            if (programState.equals("Privat")) {
+                seeBalanceResult.setText(String.valueOf(CustomerUtilities.getAccountBalanceCustomer(accountNumberField.getText())));
+            }
+            jp.add(seeBalanceResult);
+            jp.add(goBackBankOption);
+            jp.add(goBack);
+            jp.repaint();
+            jp.revalidate();
+        }
+
+        if (e.getSource().equals(seeShareBalance)) {
+            jp.removeAll();
+            seeBalanceResult.setText(String.valueOf(CustomerUtilities.getAccountShareBalanceCorporate(accountNumberField.getText())));
+            jp.add(seeBalanceResult);
+            jp.add(goBackBankOption);
             jp.add(goBack);
             jp.repaint();
             jp.revalidate();
