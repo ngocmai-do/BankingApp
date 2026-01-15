@@ -149,13 +149,13 @@ public class CustomerUtilities {
                 String companyAccountNumber = split[0];
 
                 if (companyAccountNumber.equalsIgnoreCase(String.valueOf(accountNumber))) {
-                    String currentBalance = (split[7]);
+                    String currentBalance = (split[6]);
                     int theCurrentBalance = Integer.parseInt(currentBalance);
 
                     theCurrentBalance += amountToAdd;
                     String theTotalAmount = String.valueOf(theCurrentBalance);
                     found = true;
-                    String lineToAdd = companyAccountNumber + ";" + split[1] + ";" + split[2] + ";" + split[3] + ";" + split[4] + ";" + split[5] + ";" + theTotalAmount + ";" + split[7];
+                    String lineToAdd = companyAccountNumber + ";" + split[1] + ";" + split[2] + ";" + split[3] + ";" + split[4] + ";" + split[5] + ";" + theTotalAmount + ";" + split[6];
                     if (isNotLastLine) {
                         lineToAdd += "\n";
                     }
