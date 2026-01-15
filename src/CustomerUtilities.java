@@ -56,17 +56,17 @@ public class CustomerUtilities {
         return theNewCustomerAccountNumber;
     }
 
-    public static String createNewCompanyAccount(String accountName, String accountNumber, String accountAdress, String accountEmail, String accountPassword) {
+    public static String createNewCompanyAccount(String accountName, String orgNumber, String accountAdress, String accountEmail, String accountPassword) {
         accountName = accountName.trim();
-        accountNumber = accountNumber.trim();
+        orgNumber = orgNumber.trim();
         accountAdress = accountAdress.trim();
         accountEmail = accountEmail.trim();
         accountPassword = accountPassword.trim();
         String newCorporateAccountNumber = getNewCorporateAccountNumber();
 
         try (FileWriter fw = new FileWriter(DatabaseReaderWriter.companyFileName, true)) {
-            fw.write("\n" + newCorporateAccountNumber + ";" + accountName + ";" + accountNumber + ";" + accountAdress + ";" + accountEmail + ";" + accountPassword + ";" + "0" + ";" + "0");
-            CorporateCustomer newCompany = new CorporateCustomer(accountName, newCorporateAccountNumber, accountNumber, accountAdress, accountEmail, accountPassword, 0, 0);
+            fw.write("\n" + newCorporateAccountNumber + ";" + accountName + ";" + orgNumber + ";" + accountAdress + ";" + accountEmail + ";" + accountPassword + ";" + "0" + ";" + "0");
+            CorporateCustomer newCompany = new CorporateCustomer(newCorporateAccountNumber, accountName, orgNumber, accountAdress, accountEmail, accountPassword, 0, 0);
             corporateCustomerList.add(newCompany);
         } catch (Exception e) {
             System.out.println("Error writing file");
