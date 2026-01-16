@@ -492,7 +492,9 @@ public class Program extends JFrame implements ActionListener {
 
         if (e.getSource().equals(addShareBalance)) {
             jp.removeAll();
-            int balance = CustomerUtilities.getAccountShareBalanceCorporate(accountNumberField.getText());
+            amountInCompanyShareAccount.setText("");
+            int balance = 0;
+            balance = CustomerUtilities.getAccountShareBalanceCorporate(accountNumberField.getText());
             amountInCompanyShareAccount.setText("Saldo: " + balance + "kr");
             jp.add(amountInCompanyShareAccount);
             addMoneyField.setText("");

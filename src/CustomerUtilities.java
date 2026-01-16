@@ -111,7 +111,7 @@ public class CustomerUtilities {
                     theCurrentMoney += amountToAdd;
                     String theTotalAmount = String.valueOf(theCurrentMoney);
                     found = true;
-                    sb.append(customerAccountNumber).append(";").append(split[1]).append(";").append(split[2]).append(";").append(split[3]).append(";").append(split[4]).append(";").append(split[5]).append(";").append(theTotalAmount).append("\n");
+                    sb.append(customerAccountNumber).append(";").append(split[1]).append(";").append(split[2]).append(";").append(split[3]).append(";").append(split[4]).append(";").append(split[5]).append(";").append(theTotalAmount).append(";").append(split[7]).append("\n");
                 } else {
                     sb.append(line).append("\n");
                 }
